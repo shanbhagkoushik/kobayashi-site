@@ -111,6 +111,12 @@
     .sidebar a:hover {
       transform: translateX(10px);
     }
+    .close-btn {
+      align-self: flex-end;
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -119,6 +125,7 @@
 
   <div class="menu-icon" onclick="toggleSidebar()">☰</div>
   <div class="sidebar" id="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">☰</div>
     <a href="#">Home</a>
     <a href="#">Upcoming Games</a>
     <a href="#">Projects</a>
@@ -127,7 +134,7 @@
   </div>
 
   <div class="container">
-    <img src="background.png" class="logo" />
+    <img src="background.png" alt="" class="logo" />
     <div class="typing">I build things that shouldn’t exist.</div>
   </div>
 
