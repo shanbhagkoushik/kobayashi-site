@@ -29,11 +29,14 @@
       transform: translate(-50%, -50%);
       text-align: center;
       z-index: 2;
+      animation: fadeInUp 1.5s ease-out forwards;
+      opacity: 0;
     }
     .background-img {
       width: 500px;
       height: auto;
       margin-bottom: 1.5rem;
+      animation: float 5s ease-in-out infinite;
     }
     .typing {
       font-size: 1.2rem;
@@ -49,6 +52,20 @@
     }
     @keyframes blink {
       50% { border-color: transparent; }
+    }
+    @keyframes fadeInUp {
+      0% {
+        transform: translate(-50%, -60%);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     .vertical-left {
       position: absolute;
@@ -74,15 +91,75 @@
       letter-spacing: 2px;
       z-index: 2;
     }
+    .menu-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+      cursor: pointer;
+    }
+    .bar {
+      width: 25px;
+      height: 3px;
+      background-color: #111;
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100%;
+      background-color: #f5f5f5;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+      padding: 2rem;
+      z-index: 4;
+      transition: right 0.4s ease;
+    }
+    .sidebar.active {
+      right: 0;
+    }
+    .sidebar h2 {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .sidebar a {
+      display: block;
+      margin-bottom: 1rem;
+      color: #111;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <div class="vertical-left">KOBAYASHI</div>
   <div class="vertical-right">CORPORATION</div>
 
+  <div class="menu-button" onclick="toggleSidebar()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <h2>Menu</h2>
+    <a href="#">Upcoming Games</a>
+    <a href="#">Projects</a>
+    <a href="#">Contact</a>
+    <a href="#">About</a>
+    <a href="#" onclick="toggleSidebar()">Close</a>
+  </div>
+
   <div class="container">
     <img src="background.png" alt="Main visual" class="background-img" />
     <div class="typing">I build things that shouldn’t exist.</div>
   </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
