@@ -27,8 +27,6 @@
       top: 0;
       left: 0;
       z-index: 0;
-
-  <script type="module">
     }
     .container {
       position: relative;
@@ -91,34 +89,44 @@
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 1.5, 4);
+    camera.position.set(0, 1.5, 5);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
     const loader = new GLTFLoader();
-    loader.load('https://gateway.pinata.cloud/ipfs/bafybeibct3qzzugoqmjn6lgslxpvh4oqjq7dh7rwchbae6vulsxvxi6uku', (gltf) => {
-      const model = gltf.scene;
-      model.scale.set(1.2, 1.2, 1.2);
-      scene.add(model);
+    loader.load(
+      'https://ipfs.io/ipfs/bafybeibct3qzzugoqmjn6lgslxpvh4oqjq7dh7rwchbae6vulsxvxi6uku',
+      (gltf) => {
+        const model = gltf.scene;
+        model.scale.set(1.5, 1.5, 1.5);
+        scene.add(model);
 
-      const mixer = new THREE.AnimationMixer(model);
-      if (gltf.animations.length > 0) {
-        const action = mixer.clipAction(gltf.animations[0]);
-        action.play();
-      }
+        const mixer = new THREE.AnimationMixer(model);
+        if (gltf.animations.length > 0) {
+          const action = mixer.clipAction(gltf.animations[0]);
+          action.play();
+        }
 
-      function animate() {
-        requestAnimationFrame(animate);
-        mixer.update(0.01);
-        renderer.render(scene, camera);
+        const clock = new THREE.Clock();
+        function animate() {
+          requestAnimationFrame(animate);
+          const delta = clock.getDelta();
+          mixer.update(delta);
+          renderer.render(scene, camera);
+        }
+        animate();
+      },
+      undefined,
+      (error) => {
+        console.error('GLTF load error:', error);
       }
-      animate();
-    });
+    );
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
