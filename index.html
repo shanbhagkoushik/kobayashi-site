@@ -37,7 +37,8 @@
       overflow: hidden;
       border-right: 2px solid #111;
       width: 0;
-      animation: typing 4s steps(40, end) forwards, blink 0.7s step-end infinite;
+      opacity: 0;
+      animation: typing 4s steps(40, end) forwards, fadeIn 1s ease-in forwards 0.5s, blink 0.7s step-end infinite 4s;
     }
     @keyframes typing {
       from { width: 0 }
@@ -45,6 +46,10 @@
     }
     @keyframes blink {
       50% { border-color: transparent; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     .vertical-left {
       position: absolute;
@@ -72,6 +77,13 @@
       max-width: 500px;
       height: auto;
       margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: scale(0.95);
+      animation: zoomFade 1s ease-out forwards;
+    }
+    @keyframes zoomFade {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
     .menu-icon {
       position: absolute;
@@ -113,6 +125,14 @@
       margin: 1rem 0;
       font-size: 1rem;
     }
+    .sidebar-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
     @media (max-width: 600px) {
       .typing {
         font-size: 1rem;
@@ -139,6 +159,7 @@
   </div>
 
   <div class="sidebar" id="sidebar">
+    <div class="sidebar-close" onclick="toggleMenu()">×</div>
     <ul>
       <li>Upcoming Games</li>
       <li>Projects</li>
